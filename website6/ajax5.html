@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ajax 2 - 请求JSON数据</title>
+</head>
+<body>
+
+	<button id="button2">请求所有数据</button>
+
+	<h1>请求所有数据</h1>
+	<div id="users"></div>
+</body>
+<script>
+	document.getElementById('button2').addEventListener('click',loadUsers);
+	function loadUsers(){
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET","users.php",true);
+
+
+		xhr.onload = function(){
+			if (this.status == 200) {
+				//console.log(this.responseText);
+				//将获取的json解析为对象
+				var users = JSON.parse(this.responseText);
+				console.log(users.name);
+				var output1 = '';
+				for (var i in users) {
+					output1 += `	
+					    <ul>			    
+					        <li>ID: ${users[i].id}</li>
+	                        <li>NAME: ${users[i].name}</li>
+	                    </ul>
+					`;
+				}
+				
+				document.getElementById('users').innerHTML = output1;
+			}
+		}
+		xhr.send();
+
+	}
+</script>
+</html>
